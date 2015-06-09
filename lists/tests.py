@@ -48,7 +48,8 @@ class ListAndItemModelsTest(TestCase):
 		self.assertEqual(first_saved_item.list, list_)
 		self.assertEqual(second_saved_item.text, 'Item the second')
 		self.assertEqual(second_saved_item.list, list_)
-				
+
+		
 class ListViewTest(TestCase):
 	
 	def test_uses_list_template(self):
@@ -56,14 +57,10 @@ class ListViewTest(TestCase):
 		self.assertTemplateUsed(response, 'list.html')
 	
 	def test_displays_all_list_items(self):
-	
-		Item.objects.create(text='itemey 1')
-		Item.objects.create(text='itemey 2')
+		list_ = List.objects.create()
+		Item.objects.create(text='itemey 1', list=list_)
+		Item.objects.create(text='itemey 2', list=list_)
 
-		response = self.client.get('/lists/the-only-list-in-the-world/')
-		
-		self.assertContains(response, 'itemey 1')
-		self.assertContains(response, 'itemey 2')
 				
 				
 class NewListTest(TestCase):
@@ -82,7 +79,6 @@ class NewListTest(TestCase):
 			'/lists/new',
 			data={'item_text': 'A new list item'}
 		)
-		self.assertEqual(response.status_code, 302)
 		self.assertRedirects(response, '/lists/the-only-list-in-the-world/')
 		
 		
