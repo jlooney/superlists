@@ -8,6 +8,7 @@ from lists.forms import(
     DUPLICATE_ITEM_ERROR, EMPTY_ITEM_ERROR,
     ExistingListItemForm, ItemForm
 )
+from unittest.mock import patch
 
 
 class HomePageTest(TestCase):
@@ -151,3 +152,4 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'text': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
+
